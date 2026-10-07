@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import Student from '../models/Student.js';
 import Attendance from '../models/Attendance.js';
-import { matchFaces, isValidDescriptor, THRESHOLD } from '../lib/match.js';
+import { matchFaces, isValidDescriptor, euclidean, THRESHOLD } from '../lib/match.js';
 import { saveFile, dataUrlToBuffer } from '../lib/storage.js';
 import { todayIST, lastNDaysIST } from '../lib/dates.js';
 
@@ -22,6 +22,30 @@ router.post(
     const results = matchFaces(descriptors, students);
     const matchMs = Number(process.hrtime.bigint() - started) / 1e6;
     res.json({ threshold: THRESHOLD, registered: students.length, matchMs: Math.round(matchMs * 100) / 100, results });
+  })
+);
+
+// Evaluation: distance from each query face to every registered student
+// (used by the Model Evaluation page to compute accuracy at many thresholds)
+router.post(
+  '/evaluate',
+  wrap(async (req, res) => {
+    const { descriptors = [] } = req.body;
+    if (!Array.isArray(descriptors) || !descriptors.every(isValidDescriptor)) {
+      return res.status(400).json({ error: 'Invalid face descriptors' });
+    }
+    const students = await Student.find({}, { name: 1, rollNo: 1, descriptors: 1 }).lean();
+    const results = descriptors.map((q) =>
+      students
+        .map((s) => ({
+          studentId: String(s._id),
+          name: s.name,
+          rollNo: s.rollNo,
+          distance: Math.round(Math.min(...s.descriptors.map((d) => euclidean(q, d))) * 1000) / 1000,
+        }))
+        .sort((a, b) => a.distance - b.distance)
+    );
+    res.json({ threshold: THRESHOLD, results });
   })
 );
 

@@ -237,3 +237,4 @@ tbody tr:last-child td { border-bottom: 0; }
   .kv { grid-template-columns: 1fr; gap: 2px; }
   .kv > div:nth-child(even) { margin-bottom: 8px; }
 }
+code{background:#f1f5f9;padding:1px 6px;border-radius:5px;font-size:13px}

@@ -5,6 +5,7 @@ import Register from './pages/Register.jsx';
 import TakeAttendance from './pages/TakeAttendance.jsx';
 import Records from './pages/Records.jsx';
 import Students from './pages/Students.jsx';
+import Evaluate from './pages/Evaluate.jsx';
 import { api } from './lib/api.js';
 
 const links = [
@@ -13,6 +14,7 @@ const links = [
   { to: '/register', label: 'Register Student', icon: '＋' },
   { to: '/students', label: 'Students', icon: '☰' },
   { to: '/records', label: 'Attendance Records', icon: '▤' },
+  { to: '/evaluate', label: 'Model Evaluation', icon: '◎' },
 ];
 
 export default function App() {
@@ -73,6 +75,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/students" element={<Students />} />
           <Route path="/records" element={<Records />} />
+          <Route path="/evaluate" element={<Evaluate />} />
           <Route path="*" element={<Dashboard health={health} />} />
         </Routes>
       </main>
