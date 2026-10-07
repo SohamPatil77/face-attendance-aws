@@ -29,10 +29,7 @@ export default function App() {
       <aside className="sidebar">
         <div className="brand">
           <div className="logo">
-            <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
-              <circle cx="16" cy="12" r="6" fill="currentColor" />
-              <path d="M5 29c2-7 6.5-9 11-9s9 2 11 9" fill="currentColor" />
-            </svg>
+            <img src="/logo.png" alt="FaceTrack logo" />
           </div>
           <div>
             <div className="brand-name">FaceTrack</div>
