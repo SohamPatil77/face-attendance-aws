@@ -9,7 +9,7 @@ set -euxo pipefail
 exec > >(tee -a /var/log/face-attendance-setup.log) 2>&1
 
 # ---------- settings (edit these two lines) ----------
-S3_BUCKET="CHANGE-ME-bucket-name"
+S3_BUCKET="facetrack-attendance-soham-2026"
 AWS_REGION="ap-south-1"
 REPO_URL="https://github.com/SohamPatil77/face-attendance-aws.git"
 APP_DIR=/opt/face-attendance
