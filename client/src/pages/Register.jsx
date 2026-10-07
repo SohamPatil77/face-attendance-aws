@@ -11,6 +11,7 @@ export default function Register() {
   const models = useModels();
   const videoRef = useRef(null);
   const [mode, setMode] = useState('camera');
+  const [camOk, setCamOk] = useState(false);
   const [form, setForm] = useState(empty);
   const [samples, setSamples] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -91,11 +92,11 @@ export default function Register() {
 
           {mode === 'camera' ? (
             <>
-              <Camera ref={videoRef} mirror />
+              <Camera ref={videoRef} mirror onReady={() => setCamOk(true)} />
               <button
                 className="btn primary block"
                 onClick={capture}
-                disabled={!models.ready || busy || samples.length >= MAX_SAMPLES}
+                disabled={!camOk || !models.ready || busy || samples.length >= MAX_SAMPLES}
                 type="button"
               >
                 {busy ? 'Detecting face…' : `Capture sample (${samples.length}/${MAX_SAMPLES})`}
